@@ -1,0 +1,34 @@
+Structure:
+2 hrs of interactive instruction
+1 hr group consultation / exercise
+
+To do:
+- create git repo
+x book location
+- ask microdata team for joining consultation
+- group people https://docs.google.com/spreadsheets/d/1fOWyx2WHRVasjVY2aJgAb-q9x9apAycrT0jctYrk7bk/edit#gid=2123602320
+x send email to Kasia
+
+fundamentals
+- infrastructure
+- information about files
+- additional (meta) data available (postal codes etc.)
+
+project structure & reproducibility
+- separate preprocessing and analysis
+- simple folder structure, R project, relative paths
+- simulated data
+- code import/export is free
+- working offline / collaborating
+- changing versions: put paths on top of your file
+
+code efficiency
+- import/export/writing to disk
+- separate scripts, each works by itself
+- reading spolis in chunks
+- arrow & dplyr?
+
+consultation in groups
+- consult each other
+- additional files (network analysis in python?)
+- exercise with 10GB dataset

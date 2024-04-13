@@ -1,0 +1,40 @@
+FUNDAMENTALS
+General tips on how to start using CBS Microdata in policy research
+I have no topics yet. 
+No questions at the moment 
+Not sure yet, I will get access to our CBS microdata on April 1st. 
+How to navigate the CBS environment, and how to use multiple CBS data files, and other fundamentals of using CBS data in R
+Structure of CBS data, access and procedures.
+No specific topic to discuss. 
+Introduction to working with CBS data and the general structure of the data and how to combine different sources of data. 
+Project linkage and organization between LISS and CBS
+
+
+PROJECT STRUCTURE & REPRODUCIBILITY
+(1) How to efficiently organize codes/data/results for different papers within a CBS-project
+(2) How to create reproducible and efficient codings (Stata) for the whole pipeline (raw - modified / generate - analyses)
+I would like to learn how to ensure reproducibility in the CBS environment, find folder structures that are flexible and suitable for long-term projects, and create efficient data pipelines. 
+I am mainly interested in the research reproducibility part of the workshop. Depending on what I learn there, I might have some more questions related to R coding practices, environment and state management and data wrangling. 
+Efficient data pipelines under the constraint that the data is always in the remote access environment, while researchers may also want to work offline
+version control in RA environment (working with git not possible?), improving efficiency in R-coding, preparing replication packages for projects with microdata
+(1) how to use version control in the RA environment 
+(2) How to make reproducible scripts that meet journal guidelines. I'm struggling a lot with memory limits and scripts that run very long (i.e. aggregate SPOLISBUS from monthly to annual), and I need to produce a "one-click" script for a journal submission. 
+
+CODE EFFICIENCY
+data import/export
+efficient coding to work around RA constraints
+Efficiency in handling the large datafiles such as Polis. And tips for R.
+Efficient handling of these large micro datasets
+Handling big datasets in R
+improve reproducibility and efficiency in data pipelines; databases. Python-specific best practises, if possible
+The speed of data processing; the harmonization of different bestanden
+How to work with CBS’s labeled SPSS strings in R most effectively. Haven labelled is not easily usable with every function, but creating new ‘_lab’ variables for all these variables also does not seem like a suitable fix. The question extends to how to best import all valuable information from the CBS SPSS datasets into R while minimising memory use. 
+tips how to work with huge datafiles and avoid "cannot allocate a vector sized...." problem. A question: is active CBS RA access required to participate?
+How to use CBS data in R in an efficient way. 
+I feel that when working with datasets I have on one hand the urge to save under a new dataset name a lot, so that if I make an error and have to start again I only ""drop"" a little back in my code and can start over without having to go back to the beginning and spent a lot of time rerunning my code (which takes time with big datasets).
+On the other hand, especially when working with big dataset I try to keep as few datasets open as possible, to save ""space/working memory"". So with that in mind I rather not save my dataset every time under a new name and would rather remove (rm() in r) any dataset as soon as I don't use them in the rest of the file anymore. But then I run the risk that if I make an error I have to ""go back"" very far in my code and rerun a lot of things. Is there advice how to best deal with this tension.
+
+SPECIFIC DATA QUESTIONS
+How to work efficiently with the network data at CBS?
+Parallel computation and use of spatial data
+Questions regarding specific datasets such as spolisbus
