@@ -10,13 +10,13 @@ Materials for a half-day workshop on efficient projects using CBS microdata. The
     - Code efficiency
 - Exercise & consultation in groups (1 hour)
 
-![](img/connection.svg)
+![image made with https://app.diagrams.net/](img/connection.svg)
 
 ## Materials
 
-- [__Slides__](./efficient_microdata.pdf) (pdf, without fancy gifs 😉)
-- [__Materials__](https://github.com/sodascience/workshop_efficient_microdata/archive/refs/heads/main.zip) (to follow along with the materials and live coding sessions). After downloading, unzip and double click on the file `workshop_efficient_microdata.Rproj`.
-- [__Exercise data__](https://surfdrive.surf.nl/files/index.php/s/MkCfPR4SF3md5Rm) (11.7 GB) to download and put in the folder `fake_cbs_data/Spolis`.
+- [`Slides`](./efficient_microdata.pdf) (pdf, without fancy gifs 😉)
+- [`Materials`](https://github.com/sodascience/workshop_efficient_microdata/archive/refs/heads/main.zip) (to follow along with the materials and live coding sessions). After downloading, unzip and double click on the file `workshop_efficient_microdata.Rproj`.
+- [`Exercise data`](https://surfdrive.surf.nl/files/index.php/s/MkCfPR4SF3md5Rm) (11.7 GB) to download and put in the folder `fake_cbs_data/Spolis`.
 
 
 ## Contact
