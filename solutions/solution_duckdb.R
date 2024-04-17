@@ -13,13 +13,19 @@ drv <- duckdb("processed_data/spolis.duckdb")
 dbc <- dbConnect(drv)
 
 cur_pos <- 0L
-chunk_size <- 1e5
-cur_df <- read_spss(spolis_loc, n_max = chunk_size, skip = cur_pos)
+chunk_size <- 1e6
+cur_df <- read_spss(
+  file = spolis_loc, n_max = chunk_size, skip = cur_pos, 
+  col_select = c(RINPERSOON, RINPERSOONS, SCONTRACTSOORT, SBASISLOON, SBASISUREN)
+)
 dbWriteTable(dbc, "income", cur_df, append = TRUE)
 while (nrow(cur_df) != 0) {
   cur_pos <- cur_pos + nrow(cur_df)
   cat("Row:", cur_pos, "\r")
-  cur_df <- read_spss(spolis_loc, n_max = chunk_size, skip = cur_pos)
+  cur_df <- read_spss(
+    file = spolis_loc, n_max = chunk_size, skip = cur_pos,
+    col_select = c(RINPERSOON, RINPERSOONS, SCONTRACTSOORT, SBASISLOON, SBASISUREN)
+  )
   dbWriteTable(dbc, "income", cur_df, append = TRUE)
 }
 
