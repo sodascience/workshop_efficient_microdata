@@ -12,7 +12,7 @@ library(biglmm)
 for (yr in 2000L:2020L) {
   cat("Creating year:", yr, "\r")
   dat <- 
-    read_rds("processed_data/dat_2018.rds") |> 
+    read_rds("processed_data/income_df.rds") |> 
     mutate(
       year = yr, 
       income_log = log(pmax(1, rnorm(n(), exp(income_log + 0.01*(yr-2000)), sd = 500))), 
@@ -26,8 +26,10 @@ fns <- list.files("processed_data/panel_data", full.names = TRUE)
 
 tab <- 
   read_rds(fns[1]) |> 
-  group_by(GBAGESLACHT) |> 
-  summarize(income = exp(mean(income_log))) |> 
+  summarize(
+    income = expm1(mean(income_log)), 
+    .by = GBAGESLACHT
+  ) |> 
   mutate(year = 2000)
 
 for (i in 2:length(fns)) {
@@ -35,8 +37,7 @@ for (i in 2:length(fns)) {
     bind_rows(
       tab,
       read_rds(fns[i]) |> 
-      group_by(GBAGESLACHT) |> 
-      summarize(income = exp(mean(income_log))) |> 
+      summarize(income = expm1(mean(income_log)), .by = GBAGESLACHT) |> 
       mutate(year = 1999 + i)
     )
 }
@@ -50,13 +51,14 @@ tab |>
 
 
 ## Option 2: use a database ----
+unlink("processed_data/panel.duckdb") # delete existing database
 drv <- duckdb("processed_data/panel.duckdb")
 dbc <- dbConnect(drv)
 for (fn in fns) {
   cat("Loading file:", fn, "\r")
   dbWriteTable(dbc, "income", read_rds(fn), append = TRUE)
 }
-# we create a tbl object
+# we create a tbl object: a lazy data frame
 income_tbl <- tbl(dbc, "income")
 
 # we can perform queries on this virtual table
@@ -65,11 +67,11 @@ count(income_tbl)
 tab_sql <- 
   income_tbl |> 
   filter(GBAGESLACHT != "Onbekend") |> 
-  group_by(GBAGESLACHT, year) |> 
   summarise(
     income = exp(mean(income_log)),
     lower = exp(mean(income_log) - 2 * sd(income_log) / sqrt(n())),
-    upper = exp(mean(income_log) + 2 * sd(income_log) / sqrt(n()))
+    upper = exp(mean(income_log) + 2 * sd(income_log) / sqrt(n())),
+    .by = c(GBAGESLACHT, year)
   )
 
 # lazy evaluation on the database
@@ -86,6 +88,7 @@ tab_sql |>
 dbDisconnect(dbc)
 duckdb_shutdown(drv)
 
+
 # Task 2: Regression ----
 # Are there differences in income between men and women & do these change over time?
 coef_names <- c("(Intercept)", "Year", "Women - Men", "Unknown - Men", "Year : (Women - Men)", "Year : (Unknown - Men)")
@@ -99,23 +102,8 @@ res <- biglm(
 # update with data from the other chunks
 for (fn in fns[-1]) res <- update(res, moredata = read_rds(fn))
 
-# create a summary
+# create a summaryl
 s1 <- summary(res)
 rownames(s1$mat) <- coef_names
 s1
-
-## Option 2: Regression on a database ----
-res_sql <- bigglm(
-  formula = income_log ~ I(year-2000L) * factor(GBAGESLACHT, levels = c("Mannen", "Vrouwen", "Onbekend")), 
-  data = sql_db, tablename = "income"
-)
-
-# create a summary
-s2 <- summary(res_sql)
-rownames(s2$mat) <- coef_names
-s2
-
-
-# Disconnect from the database
-dbDisconnect(sql_db)
 

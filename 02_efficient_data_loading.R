@@ -1,5 +1,7 @@
 # Reading and processing data efficiently
-# packages
+# Goal of this file: combine personal income 
+# (from INPA) with sex (from GBA) in a single
+# dataset
 library(tidyverse)
 library(haven)
 
@@ -27,12 +29,12 @@ persoon <-
 
 # inpatab (5.3 MB)
 inpa <- 
-  read_spss(inpa_file) |> 
+  read_spss(inpa_file, col_select = c(RINPERSOON, RINPERSOONS, INPPERSBRUT)) |> 
   mutate(income_log = log1p(INPPERSBRUT), .keep = "unused")
 
 # combine: joins
-dat_2018 <- left_join(
-  x = persoon, 
+income_df <- left_join(
+  x = persoon,
   y = inpa, 
   by = join_by(RINPERSOON, RINPERSOONS)
 )
@@ -41,6 +43,6 @@ dat_2018 <- left_join(
 rm(inpa, persoon)
 
 # writing the data (1.3MB)
-write_rds(dat_2018, "processed_data/dat_2018.rds", compress = "xz")
+write_rds(income_df, "processed_data/income_df.rds", compress = "xz")
 
 # done!
